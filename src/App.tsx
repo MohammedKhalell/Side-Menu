@@ -1,6 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import React from 'react';
 import SideManu from './components/sidemenu';
+import  {menuData}  from './components/menuData';
+
 import './components/sidemenu.scss';
 const App: React.FC = () => {
   return (
@@ -11,7 +13,7 @@ const App: React.FC = () => {
             path="/" 
             element={
               <>
-                <SideManu />
+                <SideManu menuItems={menuData} />
               </>
             } 
           />

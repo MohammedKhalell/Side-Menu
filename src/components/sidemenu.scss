@@ -192,11 +192,12 @@ body {
     &:hover {
       background-color: transparent;
     }
-
-    .icon,
-    .item-label {
-      color: var(--secondary-text);
+    path {
+      fill: var(--disabled-text, var(--secondary-text));
     }
+    .icon,svg,
+    .item-label {
+      color: var(--disabled-text, var(--secondary-text));    }
   }
   &:hover:not(.disabled) {
     background-color: var(--hover-bg);
@@ -259,11 +260,10 @@ body {
     pointer-events: none;
 
     .icon svg {
+      color: var(--secondary-text);
       opacity: 0.5;
-
-      path {
-        fill: #64748b;
-      }
+    
+  
     }
 
     .item-label {
@@ -275,16 +275,16 @@ body {
   &:hover:not(.disabled) {
     background-color: var(--hover-bg);
 
-    .icon svg path {
-      fill: var(--primary-text);
+    .icon svg {
+      color: var(--primary-text);
     }
   }
 
   &.active:not(.disabled) {
     background-color: var(--accent-color);
 
-    .icon svg path {
-      fill: var(--primary-text);
+    .icon svg  {
+      color: var(--primary);
     }
   }
 }
@@ -352,6 +352,11 @@ body {
     }
   }
 }
+.icon {
+  svg {
+    transition: color 0.2s ease;
+  }
+}
 .arrow {
   display: inline-block;
   width: 8px;
@@ -388,7 +393,9 @@ body {
     border-radius: 8px;
   }
 }
-
+.shortcut-icon{
+  background: #17255499;
+}
 .sub-menu-arrow {
   position: relative;
   display: inline-block;
