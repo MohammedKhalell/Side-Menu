@@ -26,7 +26,7 @@ const MenuItem: React.FC<MenuItemProps> = ({ item, activeMenu, isCollapsed, onCl
         )}
       </div>
       {!isCollapsed && item.subItems && (
-        <span className="sub-menu-arrow"></span>
+              <Icon name={"+"}  />
       )}
     </button>
   );
