@@ -1,5 +1,4 @@
 import React from 'react';
-import { Icon, IconProps } from './Icons';
 import { MenuItem as MenuItemType } from './menuData';
 
 export interface MenuItemProps {
@@ -19,14 +18,25 @@ const MenuItem: React.FC<MenuItemProps> = ({ item, activeMenu, isCollapsed, onCl
     >
       <div className="item-content">
         <div className={`icon ${activeMenu === item.id ? 'active' : ''}`}>
-          <Icon name={item.iconName} className={activeMenu === item.id ? 'text-primary' : 'text-secondary'} />
-        </div>
+        <img
+            src={item.iconName}
+            alt={`${item.label} icon`}
+            width={24}
+            height={24}
+            className={activeMenu === item.id ? 'text-primary' : 'text-secondary'}
+          />
+                  </div>
         {!isCollapsed && (
           <span className="item-label">{item.label}</span>
         )}
       </div>
       {!isCollapsed && item.subItems && (
-              <Icon name={"+"}  />
+               <img
+               src={"/icons/add.svg"}
+               alt={`icon`}
+               width={20} 
+               height={20}
+             />
       )}
     </button>
   );

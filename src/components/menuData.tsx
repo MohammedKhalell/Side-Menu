@@ -16,7 +16,7 @@ export const menuData: MenuItem[] = [
     {
       id: "dashboard",
       label: "Dashboard",
-      iconName: "dashboard",
+      iconName: "/icons/home-2.svg",
       subItems: [
         {
           id: "analytics",
@@ -30,7 +30,7 @@ export const menuData: MenuItem[] = [
     {
       id: "user-management",
       label: "User Management",
-      iconName: "user-management",
+      iconName: "/icons/profile-2user.svg",
       subItems: [
         { id: "users-list", label: "Users List", to: "/users" },
         { id: "roles", label: "Roles & Permissions", to: "/users/roles" },
@@ -40,12 +40,12 @@ export const menuData: MenuItem[] = [
     {
       id: "workflow",
       label: "Workflow Management",
-      iconName: "workflow",
+      iconName: "/icons/hierarchy-square-3.svg",
     },
     {
       id: "audit",
       label: "Audit Trail",
-      iconName: "audit",
+      iconName: "/icons/receipt-search.svg",
       subItems: [
         { id: "logs", label: "System Logs", to: "/audit/logs" },
         { id: "reports", label: "Audit Reports", to: "/audit/reports" },
@@ -55,7 +55,7 @@ export const menuData: MenuItem[] = [
     {
       id: "transactions",
       label: "Customer Transactions",
-      iconName: "transactions",
+      iconName: "/icons/arrange-square.svg",
       subItems: [
         {
           id: "recent",
@@ -69,13 +69,13 @@ export const menuData: MenuItem[] = [
       id: "customer360",
       label: "Customer 360",
       disabled: true,
-      iconName: "customer360",
+      iconName: "/icons/briefcase.svg",
     },
     {
       id: "customer-onboarding",
       label: "Customer Onboarding",
       disabled: true,
-      iconName: "customer-onboarding",
+      iconName: "/icons/user-octagon.svg",
       subItems: [
         {
           id: "new-applications",
@@ -97,36 +97,36 @@ export const menuData: MenuItem[] = [
     {
       id: "complaints",
       label: "Complaints Management",
-      iconName: "complaints",
+      iconName: "/icons/message-question.svg",
     },
     {
       id: "trade-finance",
       label: "Trade Finance",
-      iconName: "trade-finance",
+      iconName: "/icons/trade.svg",
     },
     {
       id: "lead-management",
       label: "Lead Management",
-      iconName: "lead-management",
+      iconName: "/icons/personalcard.svg",
     },
     {
       id: "loan-management",
       label: "Loan Management",
-      iconName: "loan-management",
+      iconName: "/icons/money-send.svg",
     },
     {
       id: "knowledge-base",
       label: "Knowledge Base",
-      iconName: "knowledge-base",
+      iconName: "/icons/book.svg",
     },
     {
       id: "license",
       label: "License Management",
-      iconName: "license",
+      iconName: "/icons/key-square.svg",
     },
     {
       id: "settings",
       label: "Admin Settings",
-      iconName: "settings",
+      iconName: "/icons/setting-3.svg",
     },
   ];

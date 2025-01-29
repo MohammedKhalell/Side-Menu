@@ -1,21 +1,25 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import React from 'react';
-import SideManu from './components/sidemenu';
-import  {menuData}  from './components/menuData';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import React from "react";
+import MainLayout from "./components/MainLayout";
+import KnowledgeBasePage from "./components/KnowledgeBasePage";
 
-import './components/sidemenu.scss';
+import "./components/sidemenu.scss";
+import "./components/Main.scss";
+
 const App: React.FC = () => {
   return (
     <Router>
       <div className="container">
         <Routes>
-          <Route 
-            path="/" 
+          <Route
+            path="/"
             element={
               <>
-                <SideManu menuItems={menuData} />
+                <MainLayout>
+                  <KnowledgeBasePage />
+                </MainLayout>
               </>
-            } 
+            }
           />
         </Routes>
       </div>

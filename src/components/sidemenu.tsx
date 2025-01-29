@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
-import Icon from "./Icons";
-import MenuItem from './menuItem';
-import { MenuItem as MenuItemType } from './menuData';
+import MenuItem from "./menuItem";
+import { MenuItem as MenuItemType } from "./menuData";
+import SearchBar from "./SearchBar";
 // Types
 interface SubMenuItem {
   id: string;
@@ -18,13 +18,13 @@ interface MenuItem {
 }
 interface SideMenuProps {
   menuItems: MenuItemType[];
+  
 }
 // Menu Items Data
 
-
 const SideMenu: React.FC<SideMenuProps> = ({ menuItems }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [activeMenu, setActiveMenu] = useState('');
+  const [activeMenu, setActiveMenu] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [openSubMenu, setOpenSubMenu] = useState<string | null>(null);
   const [, setPrevSubMenu] = useState<string | null>(null);
@@ -133,58 +133,53 @@ const SideMenu: React.FC<SideMenuProps> = ({ menuItems }) => {
 
   return (
     <div className="side-menu-container">
-      <div className={`side-menu ${isCollapsed ? 'collapsed' : ''} ${openSubMenu ? 'has-open-submenu' : ''}`}>
-      {/* Header */}
+      <div
+        className={`side-menu ${isCollapsed ? "collapsed" : ""} ${
+          openSubMenu ? "has-open-submenu" : ""
+        }`}
+      >
+        {/* Header */}
         <div className="menu-header">
           <div className="logo-container">
             <div className="logo">
-              <Icon name={"arena"} width={39.78} height={42.09} />
+              <img
+                src={"/icons/Logo-Icon.svg"}
+                alt={`icon`}
+                width={39.78}
+                height={42.09}
+                className="logo"
+              />
             </div>
             {!isCollapsed && (
-              <Icon name={"arena-title"} width={99.97} height={41.93} />
+              <img
+                src={"/icons/Arena-logo-type.svg"}
+                alt={`icon`}
+                width={99.97}
+                height={41.93}
+              />
             )}
           </div>
           <button
             className="collapse-button"
             onClick={() => setIsCollapsed(!isCollapsed)}
           >
-            <span className={`arrow ${isCollapsed ? "right" : "left"}`}></span>
+            <img
+              src={"/icons/sidebar-left.svg"}
+              alt={`icon`}
+              width={28}
+              height={28}
+            />{" "}
           </button>
         </div>
 
         {/* Search */}
         <div className="search-container">
-          <div className={`search-bar ${isCollapsed ? "collapsed" : ""}`}>
-            <button className="search-icon-button" onClick={handleSearchClick}>
-              <Icon name="search" className="text-primary" />
-            </button>
-            {!isCollapsed && (
-              <>
-                <input
-                  ref={searchInputRef}
-                  type="text"
-                  placeholder="Search"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="search-input"
-                />
-                <div className="shortcut">
-                  <Icon
-                    name="shortcut"
-                    width={23}
-                    height={23}
-                    className="shortcut-icon"
-                  />
-                  <Icon
-                    name="k"
-                    width={23}
-                    height={23}
-                    className="shortcut-icon"
-                  />
-                </div>
-              </>
-            )}
-          </div>
+           <SearchBar
+            placeholder="Search"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="side-menu-search"
+          />
         </div>
 
         {/* Menu Title */}
@@ -209,9 +204,16 @@ const SideMenu: React.FC<SideMenuProps> = ({ menuItems }) => {
         <div className={`sub-menu-panel ${isClosing ? "closing" : ""}`}>
           <div className="sub-menu-header">
             <div className="sub-menu-title">
-              <Icon
-                name={activeMenuItem.iconName}
-                className={activeMenu === activeMenuItem.id ? "active" : ""}
+              <img
+                src={activeMenuItem.iconName}
+                alt={`${activeMenuItem.label} icon`}
+                width={24}
+                height={24}
+                className={
+                  activeMenu === activeMenuItem.id
+                    ? "text-primary"
+                    : "text-secondary"
+                }
               />
               <span>{activeMenuItem.label}</span>
             </div>
@@ -221,8 +223,7 @@ const SideMenu: React.FC<SideMenuProps> = ({ menuItems }) => {
               <button
                 key={subItem.id}
                 className="sub-menu-item"
-                onClick={() => {
-                }}
+                onClick={() => {}}
               >
                 <span>{subItem.label}</span>
                 <span className="sub-menu-arrow"></span>

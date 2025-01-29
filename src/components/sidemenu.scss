@@ -1,5 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700&display=swap');
+
 body {
   margin: 0;
+  padding: 15px;
+    background-color: #cccc;
+    font-family: 'Cairo', sans-serif;
 }
 :root {
   --primary-bg: #172554;
@@ -14,13 +19,11 @@ body {
 .side-menu-container {
   position: relative;
   display: flex;
-  min-height: 100vh;
-  isolation: isolate; /* Creates stacking context */
+  isolation: isolate; 
 }
 
 .side-menu {
   width: 326px;
-  height: 972px;
   border-radius: 16px;
   padding: 16px;
   background-color: var(--primary-bg);
@@ -76,8 +79,9 @@ body {
 }
 
 .search-container {
-  padding: 1rem;
-  margin-bottom: 88px;
+  width: 100%;
+  padding-top: 1rem;
+  margin-bottom: 70px;
 
   .search-bar {
     display: flex;
@@ -119,10 +123,11 @@ body {
     .shortcut {
       display: flex;
       align-items: center;
-      gap: 0.25rem;
+      gap: 6px;
       font-size: 0.75rem;
       padding-left: 0.5rem;
       margin-left: auto;
+      
     }
   }
 }
@@ -133,7 +138,6 @@ body {
   color: var(--secondary-text);
   font-size: 18px;
   text-indent: 15px;
-  font-family: Cairo;
   line-height: 25px;
 }
 
@@ -176,7 +180,6 @@ body {
   .item-label {
     font-size: 16px;
     text-indent: 15px;
-    font-family: Cairo;
     line-height: 25px;
   }
 
@@ -195,7 +198,7 @@ body {
     path {
       fill: var(--disabled-text, var(--secondary-text));
     }
-    .icon,svg,
+    .icon,img,
     .item-label {
       color: var(--disabled-text, var(--secondary-text));    }
   }
@@ -203,7 +206,7 @@ body {
     background-color: var(--hover-bg);
     color: var(--primary-text);
 
-    .icon {
+    .icon img {
       color: var(--primary-text);
     }
   }
@@ -212,7 +215,7 @@ body {
     background-color: var(--accent-color);
     color: var(--primary-text);
 
-    .icon {
+    .icon img {
       color: var(--primary-text);
     }
   }
@@ -222,8 +225,12 @@ body {
     justify-content: center;
     min-width: 24px;
     height: 24px;
-
-    svg {
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    img {
       width: 24px;
       height: 24px;
       transition: opacity 0.2s ease;
@@ -259,7 +266,7 @@ body {
     cursor: not-allowed;
     pointer-events: none;
 
-    .icon svg {
+    .icon img {
       color: var(--secondary-text);
       opacity: 0.5;
     
@@ -275,7 +282,7 @@ body {
   &:hover:not(.disabled) {
     background-color: var(--hover-bg);
 
-    .icon svg {
+    .icon img {
       color: var(--primary-text);
     }
   }
@@ -283,7 +290,7 @@ body {
   &.active:not(.disabled) {
     background-color: var(--accent-color);
 
-    .icon svg  {
+    .icon img  {
       color: var(--primary);
     }
   }
@@ -334,7 +341,6 @@ body {
     margin-bottom: 0.25rem;
     font-size: 16px;
     text-indent: 15px;
-    font-family: Cairo;
     line-height: 25px;
 
     &:hover {
@@ -342,18 +348,18 @@ body {
       color: var(--primary-text);
     }
 
-    svg {
+    img {
       opacity: 0;
       transition: all 0.2s ease;
     }
 
-    &:hover svg {
+    &:hover img {
       opacity: 1;
     }
   }
 }
 .icon {
-  svg {
+  img {
     transition: color 0.2s ease;
   }
 }
@@ -395,6 +401,7 @@ body {
 }
 .shortcut-icon{
   background: #17255499;
+  border-radius: 5px;
 }
 .sub-menu-arrow {
   position: relative;
