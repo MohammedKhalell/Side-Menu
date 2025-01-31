@@ -1,32 +1,69 @@
-import { LayoutGrid, List, Filter, Plus } from 'lucide-react';
-import SearchBar from '../components/SearchBar';
+import { useState, useEffect } from 'react';
+import SearchBar from "../components/SearchBar";
+import data from './card-data.json';
 
+
+interface CollectionItem {
+  id: string;
+  title: string;
+  description: string;
+  image: string;
+  sections: number;
+  articles: number;
+}
+
+const ITEMS_PER_PAGE = 8;
 const KnowledgeBasePage = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [collections, setCollections] = useState<CollectionItem[]>([]);  
+    
+  useEffect(() => {
+    // Load data from the cabaret file
+    setCollections(data);
+  }, []);
+  
+  // Calculate the total number of pages
+  const totalPages = Math.ceil(collections.length / ITEMS_PER_PAGE);
+
+  // Get the current page items
+  const currentItems = collections.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
+
+  const handlePageChange = (pageNum: number) => {
+    setCurrentPage(pageNum);
+  };
+
   return (
     <div className="knowledge-base">
-          <div className="page-header-top"></div>
+      <div className="page-header-top"></div>
       <div className="page-header">
         <div className="view-controls">
-          <button className="view-btn active">
-            <LayoutGrid size={20} />
+          <button className="view-btn">
+            <img
+              src={"/icons/LayoutGrid.svg"}
+              alt={`icon`}
+              width={24}
+              height={24}
+            />
             <span>Card View</span>
           </button>
-          <button className="view-btn">
-            <List size={20} />
+          <button className="view-btn disabled">
+            <img src={"/icons/List.svg"} alt={`icon`} width={24} height={24} />{" "}
             <span>List View</span>
           </button>
-          <SearchBar
-            placeholder="Search"
-            className="search-bar-card"
-          />
+          <SearchBar placeholder="Search" className="search-bar-card" />
         </div>
         <div className="action-buttons">
           <button className="filter-btn">
-            <Filter size={20} />
+            <img
+              src={"/icons/Filter.svg"}
+              alt={`icon`}
+              width={24}
+              height={24}
+            />
             <span>Filter</span>
           </button>
           <button className="add-new-btn">
-            <Plus size={20} />
+            <img src={"/icons/add.svg"} alt={`icon`} width={24} height={24} />{" "}
             <span>Add New</span>
           </button>
         </div>
@@ -34,17 +71,33 @@ const KnowledgeBasePage = () => {
 
       <div className="card-section">
         <div className="collections-grid">
-          {Array(8).fill(0).map((_, index) => (
-            <div key={index} className="collection-card">
+           {currentItems.map((item) => (
+            <div key={item.id} className="collection-card">
               <div className="card-image">
-                <img src="/icons/knowledge-base.svg" alt="Collection" />
+                <img src={item.image} alt={item.title} />
               </div>
               <div className="card-content">
-                <h3>Collection Name</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <h3>{item.title}</h3>
+                <p>{item.description}</p>
                 <div className="card-stats">
-                  <span>12 Section</span>
-                  <span>50 Article</span>
+                  <div className='left'>
+                <img
+              src={"/icons/file.svg"}
+              alt={`icon`}
+              width={24}
+              height={24}
+            />
+                  <span>{item.sections} Sections</span>
+                  </div>
+                  <div className='right'>
+                  <img
+              src={"/icons/Iconic-Label.svg"}
+              alt={`icon`}
+              width={24}
+              height={24}
+            />
+                  <span>{item.articles} Articles</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -53,15 +106,52 @@ const KnowledgeBasePage = () => {
       </div>
 
       <div className="pagination">
-        <button className="prev">Previous</button>
+      <button 
+          className="next" 
+          disabled={currentPage === 1} 
+          onClick={() => handlePageChange(1)}>
+          {'<<'}
+        </button>
+        <button 
+          className="prev" 
+          disabled={currentPage === 1} 
+          onClick={() => handlePageChange(currentPage - 1)}>
+           <img
+                src={"/icons/Arrow-Left.svg"}
+                alt={`icon`}
+                width={24}
+                height={24}
+                className="top-bar-btn user"
+              />        
+        </button>
         <div className="pages">
-          <button className="active">1</button>
-          <button>2</button>
-          <button>3</button>
-          <button>4</button>
-          <button>5</button>
+          {Array.from({ length: totalPages }, (_, index) => (
+            <button 
+              key={index} 
+              className={currentPage === index + 1 ? 'active' : ''} 
+              onClick={() => handlePageChange(index + 1)}>
+              {index + 1}
+            </button>
+          ))}
         </div>
-        <button className="next">Next</button>
+        <button 
+          className="next" 
+          disabled={currentPage === totalPages} 
+          onClick={() => handlePageChange(currentPage + 1)}>
+           <img
+                src={"/icons/Arrow-Right.svg"}
+                alt={`icon`}
+                width={24}
+                height={24}
+                className="top-bar-btn user"
+              />        
+        </button>
+        <button 
+          className="next" 
+          disabled={currentPage === totalPages} 
+          onClick={() => handlePageChange(totalPages)}>
+          {'>>'}     
+        </button>
       </div>
     </div>
   );

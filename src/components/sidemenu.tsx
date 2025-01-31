@@ -18,19 +18,18 @@ interface MenuItem {
 }
 interface SideMenuProps {
   menuItems: MenuItemType[];
-  
+  isCollapsed: boolean;
+  setIsCollapsed: React.Dispatch<React.SetStateAction<boolean>>; 
 }
 // Menu Items Data
 
-const SideMenu: React.FC<SideMenuProps> = ({ menuItems }) => {
-  const [isCollapsed, setIsCollapsed] = useState(false);
+const SideMenu: React.FC<SideMenuProps> = ({ menuItems, isCollapsed,setIsCollapsed }) => {
   const [activeMenu, setActiveMenu] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [openSubMenu, setOpenSubMenu] = useState<string | null>(null);
   const [, setPrevSubMenu] = useState<string | null>(null);
   const [, setIsSubMenuTransitioning] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
-  const searchInputRef = useRef<HTMLInputElement>(null);
   const transitionTimeoutRef = useRef<NodeJS.Timeout>();
 
   const handleSubMenuTransition = (newMenuId: string) => {
@@ -108,15 +107,6 @@ const SideMenu: React.FC<SideMenuProps> = ({ menuItems }) => {
     }
   };
 
-  const handleSearchClick = () => {
-    if (isCollapsed) {
-      setIsCollapsed(false);
-      setTimeout(() => {
-        searchInputRef.current?.focus();
-      }, 300);
-    }
-  };
-
   useEffect(() => {
     return () => {
       if (transitionTimeoutRef.current) {
@@ -133,11 +123,8 @@ const SideMenu: React.FC<SideMenuProps> = ({ menuItems }) => {
 
   return (
     <div className="side-menu-container">
-      <div
-        className={`side-menu ${isCollapsed ? "collapsed" : ""} ${
-          openSubMenu ? "has-open-submenu" : ""
-        }`}
-      >
+            <div className={`side-menu ${isCollapsed ? "collapsed" : ""}`}>
+
         {/* Header */}
         <div className="menu-header">
           <div className="logo-container">
@@ -159,27 +146,16 @@ const SideMenu: React.FC<SideMenuProps> = ({ menuItems }) => {
               />
             )}
           </div>
-          <button
-            className="collapse-button"
-            onClick={() => setIsCollapsed(!isCollapsed)}
-          >
-            <img
-              src={"/icons/sidebar-left.svg"}
-              alt={`icon`}
-              width={28}
-              height={28}
-            />{" "}
-          </button>
         </div>
 
         {/* Search */}
         <div className="search-container">
            <SearchBar
-            placeholder="Search"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="side-menu-search"
-          />
+ placeholder= "Search"
+       value={searchTerm}
+       onChange={(e) => setSearchTerm(e.target.value)}
+       className="side-menu-search"
+     />
         </div>
 
         {/* Menu Title */}

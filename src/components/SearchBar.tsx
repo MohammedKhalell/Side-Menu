@@ -1,5 +1,4 @@
-import React, { InputHTMLAttributes } from 'react';
-import { Search } from 'lucide-react';
+import React, { InputHTMLAttributes } from "react";
 
 interface SearchBarProps extends InputHTMLAttributes<HTMLInputElement> {
   className?: string;
@@ -7,9 +6,13 @@ interface SearchBarProps extends InputHTMLAttributes<HTMLInputElement> {
 
 const SearchBar: React.FC<SearchBarProps> = ({ className, ...inputProps }) => {
   return (
-    <div className={`search-bar ${className || ''}`}>
-      <Search size={20} className="search-icon" />
-      <input {...inputProps} />
+    <div className={`search-bar ${className || ""}`}>
+      <img
+        src={`/icons/${className}.svg`}
+        alt={`icon`}
+        className="search-icon-button"
+      />
+      <input {...inputProps} className="search-input" />
     </div>
   );
 };
