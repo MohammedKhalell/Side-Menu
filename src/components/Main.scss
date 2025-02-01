@@ -78,6 +78,8 @@
 // Knowledge Base Page
 .knowledge-base {
   padding: 32px 0px;
+  filter: brightness(1); /* Dim the entire card section */
+  transition: filter 0.3s ease-in-out;
 
   .page-header-top {
     height: 100px;
@@ -104,8 +106,8 @@
       display: flex;
       gap: 12px;
       align-items: center;
-
-      .view-btn {
+      width: 80%;    
+        .view-btn {
         display: flex;
         align-items: center;
         gap: 8px;
@@ -114,10 +116,9 @@
         background: white;
         border-radius: 8px;
         cursor: pointer;
-       
+
         &.disabled {
           color: #94a3b8;
-        
         }
         &:hover:not(.disabled) {
           background: #ebecf2;
@@ -125,8 +126,26 @@
       }
 
       .search-bar {
-        background-color: white;
-        border: 1px solid #e2e8f0;
+        display: flex;
+        padding: 10px 12px;
+        align-items: center;
+        gap: 12px;
+        flex: 1 0 0;
+        border-radius: 8px;
+        border: 1px solid var(--Slate-100, #f1f5f9);
+        background: #fff;
+      }
+      input {
+        flex: 1;
+        border: none;
+        outline: none;
+        background-color: transparent;
+        font-size: 14px;
+        margin-left: 8px;
+
+        &::placeholder {
+          color: #94a3b8;
+        }
       }
     }
 
@@ -253,7 +272,9 @@
       gap: 4px;
       font-size: 14px;
     }
-    .right ,span, img {
+    .right,
+    span,
+    img {
       display: flex;
       gap: 4px;
       font-size: 14px;
@@ -263,15 +284,14 @@
 
 .pagination {
   display: flex;
-  justify-content: end;
+  justify-content: space-between;
   gap: 8px;
   border-radius: 12px;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
   background: white;
   padding: 10px 10px;
-  
-
+width: 100%;
   button {
     padding: 8px 16px;
     border: 1px solid #e2e8f0;
@@ -283,13 +303,13 @@
     justify-content: center;
     display: flex;
     align-items: center;
- 
-      fill: #ff0000;
-    
+
+    fill: #ff0000;
+
     &.active {
-      background: #2C4FA4;
+      background: #2c4fa4;
       color: white;
-      border-color: #2C4FA4;
+      border-color: #2c4fa4;
     }
 
     &:hover:not(.active) {
@@ -302,47 +322,21 @@
     gap: 8px;
   }
 }
-
-.search-bar-card {
+.pagination-container {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  background-color: #f1f5f9;
-  padding: 8px 16px;
-  border-radius: 8px;
-  width: 300px;
-  
-  .search-icon {
-    color: #94a3b8;
-  }
+}
 
-  input {
-    flex: 1;
-    border: none;
-    outline: none;
-    background-color: transparent;
-    font-size: 14px;
-    margin-left: 8px;
+.pagination-info {
+  color: #666;
+  font-size: 14px;
+  align-items: center;
+    display: flex
+;
+}
+.shift-buttons{
+  display: flex;
+  justify-content: end;
 
-    &::placeholder {
-      color: #94a3b8;
-    }
-  }
-
-  &.side-menu-search {
-    background-color: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: white;
-
-    .search-icon {
-      color: #94a3b8;
-    }
-
-    input {
-      color: white;
-
-      &::placeholder {
-        color: #94a3b8;
-      }
-    }
-  }
 }

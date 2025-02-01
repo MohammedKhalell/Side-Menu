@@ -1,7 +1,6 @@
-import { useState, useEffect } from 'react';
-import SearchBar from "../components/SearchBar";
-import data from './card-data.json';
-
+import { useState, useEffect } from "react";
+import data from "./card-data.json";
+import AddNewCollection from "./AddNewCollection";
 
 interface CollectionItem {
   id: string;
@@ -15,25 +14,61 @@ interface CollectionItem {
 const ITEMS_PER_PAGE = 8;
 const KnowledgeBasePage = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [collections, setCollections] = useState<CollectionItem[]>([]);  
-    
+  const [collections, setCollections] = useState<CollectionItem[]>([]);
+  const [showAddNewForm, setShowAddNewForm] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredCollections, setFilteredCollections] = useState<
+    CollectionItem[]
+  >([]);
+  const handleAddNewClick = () => {
+    setShowAddNewForm(true);
+  };
+
+  const handleCloseForm = () => {
+    setShowAddNewForm(false);
+  };
+
   useEffect(() => {
-    // Load data from the cabaret file
+    // Load data from the JSON file
     setCollections(data);
   }, []);
-  
+  useEffect(() => {
+    const filtered = collections.filter(
+      (item) =>
+        item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.description.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredCollections(filtered);
+    setCurrentPage(1); // Reset to first page when searching
+  }, [searchTerm, collections]);
+
   // Calculate the total number of pages
   const totalPages = Math.ceil(collections.length / ITEMS_PER_PAGE);
 
   // Get the current page items
-  const currentItems = collections.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
-
+  const currentItems = collections.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
+  useEffect(() => {
+    // Apply the animation when the showAddNewForm state changes
+    const addNewCollection = document.querySelector(".add-new-collection");
+    if (addNewCollection) {
+      addNewCollection.classList.toggle("show", showAddNewForm);
+    }
+  }, [showAddNewForm]);
   const handlePageChange = (pageNum: number) => {
     setCurrentPage(pageNum);
   };
-
+  let backdrop;
+  if (showAddNewForm) {
+    backdrop = <div className="backdrop" onClick={handleCloseForm} />;
+  }
+  const totalItems = filteredCollections.length;
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = Math.min(startIndex + ITEMS_PER_PAGE, totalItems);
   return (
-    <div className="knowledge-base">
+    <div className={`knowledge-base ${showAddNewForm ? "shadow" : ""}`}>
       <div className="page-header-top"></div>
       <div className="page-header">
         <div className="view-controls">
@@ -50,7 +85,19 @@ const KnowledgeBasePage = () => {
             <img src={"/icons/List.svg"} alt={`icon`} width={24} height={24} />{" "}
             <span>List View</span>
           </button>
-          <SearchBar placeholder="Search" className="search-bar-card" />
+          <div className={`search-bar search-bar-card`}>
+            <img
+              src={`/icons/search-bar-card.svg`}
+              alt={`icon`}
+              className="search-icon-button"
+            />
+            <input
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder="Search"
+              className="search-input"
+            />
+          </div>
         </div>
         <div className="action-buttons">
           <button className="filter-btn">
@@ -62,16 +109,15 @@ const KnowledgeBasePage = () => {
             />
             <span>Filter</span>
           </button>
-          <button className="add-new-btn">
+          <button className="add-new-btn" onClick={handleAddNewClick}>
             <img src={"/icons/add.svg"} alt={`icon`} width={24} height={24} />{" "}
             <span>Add New</span>
           </button>
         </div>
       </div>
-
       <div className="card-section">
         <div className="collections-grid">
-           {currentItems.map((item) => (
+          {currentItems.map((item) => (
             <div key={item.id} className="collection-card">
               <div className="card-image">
                 <img src={item.image} alt={item.title} />
@@ -80,23 +126,23 @@ const KnowledgeBasePage = () => {
                 <h3>{item.title}</h3>
                 <p>{item.description}</p>
                 <div className="card-stats">
-                  <div className='left'>
-                <img
-              src={"/icons/file.svg"}
-              alt={`icon`}
-              width={24}
-              height={24}
-            />
-                  <span>{item.sections} Sections</span>
+                  <div className="left">
+                    <img
+                      src={"/icons/file.svg"}
+                      alt={`icon`}
+                      width={24}
+                      height={24}
+                    />
+                    <span>{item.sections} Sections</span>
                   </div>
-                  <div className='right'>
-                  <img
-              src={"/icons/Iconic-Label.svg"}
-              alt={`icon`}
-              width={24}
-              height={24}
-            />
-                  <span>{item.articles} Articles</span>
+                  <div className="right">
+                    <img
+                      src={"/icons/Iconic-Label.svg"}
+                      alt={`icon`}
+                      width={24}
+                      height={24}
+                    />
+                    <span>{item.articles} Articles</span>
                   </div>
                 </div>
               </div>
@@ -104,55 +150,81 @@ const KnowledgeBasePage = () => {
           ))}
         </div>
       </div>
-
+      <div className="pagination-container">
+       
       <div className="pagination">
-      <button 
-          className="next" 
-          disabled={currentPage === 1} 
-          onClick={() => handlePageChange(1)}>
-          {'<<'}
+      <div className="pagination-info">
+          Showing page {currentPage} - {startIndex + 1} to {endIndex} of {totalItems} items
+        </div>
+        <div className="shift-buttons">
+        <button
+          className="next"
+          disabled={currentPage === 1}
+          onClick={() => handlePageChange(1)}
+        >
+          {"<<"}
         </button>
-        <button 
-          className="prev" 
-          disabled={currentPage === 1} 
-          onClick={() => handlePageChange(currentPage - 1)}>
-           <img
-                src={"/icons/Arrow-Left.svg"}
-                alt={`icon`}
-                width={24}
-                height={24}
-                className="top-bar-btn user"
-              />        
+        <button
+          className="prev"
+          disabled={currentPage === 1}
+          onClick={() => handlePageChange(currentPage - 1)}
+        >
+          <img
+            src={"/icons/Arrow-Left.svg"}
+            alt={`icon`}
+            width={24}
+            height={24}
+            className="top-bar-btn user"
+          />
         </button>
         <div className="pages">
           {Array.from({ length: totalPages }, (_, index) => (
-            <button 
-              key={index} 
-              className={currentPage === index + 1 ? 'active' : ''} 
-              onClick={() => handlePageChange(index + 1)}>
+            <button
+              key={index}
+              className={currentPage === index + 1 ? "active" : ""}
+              onClick={() => handlePageChange(index + 1)}
+            >
               {index + 1}
             </button>
           ))}
         </div>
-        <button 
-          className="next" 
-          disabled={currentPage === totalPages} 
-          onClick={() => handlePageChange(currentPage + 1)}>
-           <img
-                src={"/icons/Arrow-Right.svg"}
-                alt={`icon`}
-                width={24}
-                height={24}
-                className="top-bar-btn user"
-              />        
+        <button
+          className="next"
+          disabled={currentPage === totalPages}
+          onClick={() => handlePageChange(currentPage + 1)}
+        >
+          <img
+            src={"/icons/Arrow-Right.svg"}
+            alt={`icon`}
+            width={24}
+            height={24}
+            className="top-bar-btn user"
+          />
         </button>
-        <button 
-          className="next" 
-          disabled={currentPage === totalPages} 
-          onClick={() => handlePageChange(totalPages)}>
-          {'>>'}     
+        <button
+          className="next"
+          disabled={currentPage === totalPages}
+          onClick={() => handlePageChange(totalPages)}
+        >
+          {">>"}
         </button>
+        </div>
       </div>
+      </div>
+      {showAddNewForm && (
+        <div className="add-new-collection-container">
+          <div
+            className={`add-new-collection-form ${
+              showAddNewForm ? "show" : "hide"
+            }`}
+          >
+            <div className="add-new-collection-container">
+              <AddNewCollection onClose={handleCloseForm} />
+            </div>
+          </div>
+          <div className="backdrop" onClick={handleCloseForm} />
+        </div>
+      )}
     </div>
   );
 };

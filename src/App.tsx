@@ -5,6 +5,8 @@ import KnowledgeBasePage from "./components/KnowledgeBasePage";
 
 import "./components/sidemenu.scss";
 import "./components/Main.scss";
+import "./components/AddNewCollection.scss";
+
 
 const App: React.FC = () => {
   return (
