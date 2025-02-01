@@ -97,7 +97,7 @@ const AddNewCollection: React.FC<AddNewCollectionProps> = ({ onClose }) => {
               <p>Knowledge Base / Create New Collection</p>
             </div>
           </div>
-          <button className="close-button" onClick={onClose}>
+          <button className="close-button" onClick={handleClose}>
             <img src="/icons/close.svg" alt="Close" />
           </button>
         </div>

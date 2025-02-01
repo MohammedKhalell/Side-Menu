@@ -295,13 +295,13 @@ body {
   width: 256px;
   background-color: var(--primary-bg);
   border-left: 1px solid var(--border-color);
-  animation: slideIn 0.3s ease forwards;
+  animation: slide-In 0.3s ease forwards;
   overflow: hidden;
   position: relative;
   border-radius: 16px;
 
   &.closing {
-    animation: slideOut 0.3s ease forwards;
+    animation: slide-Out 0.3s ease forwards;
   }
 
   .sub-menu-header {
@@ -431,7 +431,7 @@ body {
 .back-button:hover {
     color: #2E90FA;
 }
-@keyframes slideIn {
+@keyframes slide-In {
   from {
     opacity: 0;
     transform: translateX(-20px);
@@ -442,7 +442,7 @@ body {
   }
 }
 
-@keyframes slideOut {
+@keyframes slide-Out {
   from {
     opacity: 1;
     transform: translateX(0);

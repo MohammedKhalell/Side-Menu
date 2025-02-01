@@ -39,11 +39,7 @@
     right: 0;
   }
 
-  &.hide {
-    animation-name: slide-out-right;
-    animation-fill-mode: forwards;
-    right: -100%;
-  }
+ 
 
   .form-group {
     margin-bottom: 16px;
@@ -286,7 +282,6 @@
 .cancel-button:hover {
   background: #f5f5f5;
 }
-/* ... Previous styles remain the same ... */
 
 .input-wrapper {
   position: relative;
@@ -356,11 +351,19 @@ textarea.error,
 select.error {
   border-color: #ff4d4f;
 }
-.add-new-collection {
-    animation: slideIn 0.3s ease-out;
-}
+
 
 .add-new-collection.closing {
     animation: slideOut 0.3s ease-out;
+    
 }
 
+@keyframes slideIn {
+    from { transform: translateX(100%); }
+    to { transform: translateX(0); }
+}
+
+@keyframes slideOut {
+    from { transform: translateX(0); }
+    to { transform: translateX(100%); }
+}
