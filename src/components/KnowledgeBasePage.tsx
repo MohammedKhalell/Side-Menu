@@ -16,7 +16,9 @@ const KnowledgeBasePage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [collections, setCollections] = useState<CollectionItem[]>([]);
   const [showAddNewForm, setShowAddNewForm] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, ] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+  
   const [filteredCollections, setFilteredCollections] = useState<
     CollectionItem[]
   >([]);
@@ -27,11 +29,27 @@ const KnowledgeBasePage = () => {
   const handleCloseForm = () => {
     setShowAddNewForm(false);
   };
-
+  const handlePageChange = (pageNum: number) => {
+    setCurrentPage(pageNum);
+  };
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+    if (!query.trim()) {
+      setFilteredCollections(collections);
+      return;
+    }
+    const filtered = collections.filter((item) =>
+      item.title.toLowerCase().includes(query.toLowerCase()) ||
+      item.description.toLowerCase().includes(query.toLowerCase())
+    );
+    setFilteredCollections(filtered);
+    setCurrentPage(1);
+  };
   useEffect(() => {
-    // Load data from the JSON file
     setCollections(data);
+    setFilteredCollections(data);
   }, []);
+
   useEffect(() => {
     const filtered = collections.filter(
       (item) =>
@@ -42,14 +60,6 @@ const KnowledgeBasePage = () => {
     setCurrentPage(1); // Reset to first page when searching
   }, [searchTerm, collections]);
 
-  // Calculate the total number of pages
-  const totalPages = Math.ceil(collections.length / ITEMS_PER_PAGE);
-
-  // Get the current page items
-  const currentItems = collections.slice(
-    (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE
-  );
   useEffect(() => {
     // Apply the animation when the showAddNewForm state changes
     const addNewCollection = document.querySelector(".add-new-collection");
@@ -57,16 +67,17 @@ const KnowledgeBasePage = () => {
       addNewCollection.classList.toggle("show", showAddNewForm);
     }
   }, [showAddNewForm]);
-  const handlePageChange = (pageNum: number) => {
-    setCurrentPage(pageNum);
-  };
+ 
   let backdrop;
   if (showAddNewForm) {
-    backdrop = <div className="backdrop" onClick={handleCloseForm} />;
+    backdrop = <div className="backdrop" />;
   }
+  const totalPages = Math.ceil(collections.length / ITEMS_PER_PAGE);
   const totalItems = filteredCollections.length;
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = Math.min(startIndex + ITEMS_PER_PAGE, totalItems);
+  const currentItems = filteredCollections.slice(startIndex, endIndex);
+
   return (
     <div className={`knowledge-base ${showAddNewForm ? "shadow" : ""}`}>
       <div className="page-header-top"></div>
@@ -92,9 +103,9 @@ const KnowledgeBasePage = () => {
               className="search-icon-button"
             />
             <input
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Search"
+              value={searchQuery}
+              onChange={(e) => handleSearch(e.target.value)}
               className="search-input"
             />
           </div>
@@ -151,65 +162,55 @@ const KnowledgeBasePage = () => {
         </div>
       </div>
       <div className="pagination-container">
-       
-      <div className="pagination">
-      <div className="pagination-info">
-          Showing page {currentPage} - {startIndex + 1} to {endIndex} of {totalItems} items
-        </div>
-        <div className="shift-buttons">
-        <button
-          className="next"
-          disabled={currentPage === 1}
-          onClick={() => handlePageChange(1)}
-        >
-          {"<<"}
-        </button>
-        <button
-          className="prev"
-          disabled={currentPage === 1}
-          onClick={() => handlePageChange(currentPage - 1)}
-        >
-          <img
-            src={"/icons/Arrow-Left.svg"}
-            alt={`icon`}
-            width={24}
-            height={24}
-            className="top-bar-btn user"
-          />
-        </button>
-        <div className="pages">
-          {Array.from({ length: totalPages }, (_, index) => (
+        <div className="pagination">
+          <div className="pagination-info">
+            Showing page {currentPage} - {startIndex + 1} to {endIndex} of{" "}
+            {totalItems} items
+          </div>
+          <div className="shift-buttons">
             <button
-              key={index}
-              className={currentPage === index + 1 ? "active" : ""}
-              onClick={() => handlePageChange(index + 1)}
+              className="next"
+              disabled={currentPage === 1}
+              onClick={() => handlePageChange(1)}
             >
-              {index + 1}
+              {"<<"}
             </button>
-          ))}
+            <button
+              className="prev"
+              disabled={currentPage === 1}
+              onClick={() => handlePageChange(currentPage - 1)}
+            >
+                            {"<"}
+
+            </button>
+            <div className="pages">
+              {Array.from({ length: totalPages }, (_, index) => (
+                <button
+                  key={index}
+                  className={currentPage === index + 1 ? "active" : ""}
+                  onClick={() => handlePageChange(index + 1)}
+                >
+                  {index + 1}
+                </button>
+              ))}
+            </div>
+            <button
+              className="next"
+              disabled={currentPage === totalPages}
+              onClick={() => handlePageChange(currentPage + 1)}
+            >
+                            {">"}
+
+            </button>
+            <button
+              className="next"
+              disabled={currentPage === totalPages}
+              onClick={() => handlePageChange(totalPages)}
+            >
+              {">>"}
+            </button>
+          </div>
         </div>
-        <button
-          className="next"
-          disabled={currentPage === totalPages}
-          onClick={() => handlePageChange(currentPage + 1)}
-        >
-          <img
-            src={"/icons/Arrow-Right.svg"}
-            alt={`icon`}
-            width={24}
-            height={24}
-            className="top-bar-btn user"
-          />
-        </button>
-        <button
-          className="next"
-          disabled={currentPage === totalPages}
-          onClick={() => handlePageChange(totalPages)}
-        >
-          {">>"}
-        </button>
-        </div>
-      </div>
       </div>
       {showAddNewForm && (
         <div className="add-new-collection-container">

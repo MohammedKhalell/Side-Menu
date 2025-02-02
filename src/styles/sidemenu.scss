@@ -3,6 +3,7 @@
 body {
   margin: 0;
   font-family: "Cairo", sans-serif;
+  overflow-x: hidden;
 }
 :root {
   --primary-bg: #172554;
@@ -425,8 +426,8 @@ body {
     border: none;
     background: none;
     cursor: pointer;
-    color: #666;
-}
+    color: var(--Blue-50, #EFF6FF);
+  }
 
 .back-button:hover {
     color: #2E90FA;

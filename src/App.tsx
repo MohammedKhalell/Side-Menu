@@ -3,9 +3,9 @@ import React from "react";
 import MainLayout from "./components/MainLayout";
 import KnowledgeBasePage from "./components/KnowledgeBasePage";
 
-import "./components/sidemenu.scss";
-import "./components/Main.scss";
-import "./components/AddNewCollection.scss";
+import "./styles/sidemenu.scss";
+import "./styles/Main.scss";
+import "./styles/AddNewCollection.scss";
 
 
 const App: React.FC = () => {

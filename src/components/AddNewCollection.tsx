@@ -42,9 +42,9 @@ const AddNewCollection: React.FC<AddNewCollectionProps> = ({ onClose }) => {
     setIsValid(newValidState);
   };
 
-  useEffect(() => {
-    validateForm();
-}, [formData]);
+useEffect(() => {
+  validateForm();
+}, [collectionName, collectionDescription, collectionTags, collectionAccessLevel]);
 
   const isFormValid = () => {
     return Object.values(isValid).every((value) => value === true);
@@ -52,14 +52,20 @@ const AddNewCollection: React.FC<AddNewCollectionProps> = ({ onClose }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (Object.values(isValid).every(Boolean)) {
-        console.log({
+   
+    if (isFormValid()) {
+      console.log({
         collectionName,
         collectionDescription,
         collectionTags,
         collectionAccessLevel,
-      });
-      onClose();
+        
+      }
+    );
+      if (formData.thumbnail) {
+        console.log('Uploaded file:', formData.thumbnail.name);
+      }
+      handleClose();
     }
   };
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -78,14 +84,18 @@ const AddNewCollection: React.FC<AddNewCollectionProps> = ({ onClose }) => {
     }
 };
   const handleClose = () => {
-    setIsClosing(true);
-    setTimeout(() => {
+    if (!isClosing) {
+      setIsClosing(true);
+      setTimeout(() => {
         onClose();
-    }, 300);
+      }, 200);
 };
-
+  }
+const handleFormClick = (e: React.MouseEvent) => {
+  e.stopPropagation(); // Prevent clicks within form from closing it
+};
   return (
-    <div className={`add-new-collection ${isClosing ? 'closing' : ''}`}>
+    <div className={`add-new-collection-wrapper ${isClosing ? 'closing' : ''}`} onClick={handleFormClick}>
       <div className="collection-form">
         <div className="form-header">
           <div className="header-content">
@@ -240,7 +250,6 @@ const AddNewCollection: React.FC<AddNewCollectionProps> = ({ onClose }) => {
                     onChange={handleFileUpload}
                     accept=".svg,.jpg,.jpeg,.png"
                     style={{ display: 'none' }}
-                    required
                 />
             </div>
             
@@ -255,7 +264,7 @@ const AddNewCollection: React.FC<AddNewCollectionProps> = ({ onClose }) => {
 
               Create Now
             </button>
-            <button type="button" className="cancel-button" onClick={onClose}>
+            <button type="button" className="cancel-button" onClick={handleClose}>
               Cancel
             </button>
           </div>

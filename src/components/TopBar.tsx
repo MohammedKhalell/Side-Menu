@@ -1,5 +1,4 @@
 import React from 'react';
-import { Bell, Globe, User, Menu } from 'lucide-react';
 
 interface TopBarProps {
   toggleSideMenu: () => void;
@@ -61,6 +60,7 @@ const TopBar: React.FC<TopBarProps> = ({ toggleSideMenu, isCollapsed }) => {
                 height={24}
                 className="top-bar-btn user"
               />            <span>User Names</span>
+              <i className="arrow-down"></i>
         </button>
       </div>
     </div>

@@ -1,8 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import MenuItem from "./menuItem";
 import { MenuItem as MenuItemType } from "./menuData";
-import SearchBar from "./SearchBar";
-// Types
 interface SubMenuItem {
   id: string;
   label: string;
@@ -45,7 +43,7 @@ const SideMenu: React.FC<SideMenuProps> = ({
 
     setIsSubMenuTransitioning(true);
     setPrevSubMenu(openSubMenu);
-
+    handleSubMenuOpen(newMenuId);
     // Clear any existing timeout
     if (transitionTimeoutRef.current) {
       clearTimeout(transitionTimeoutRef.current);
@@ -67,20 +65,6 @@ const SideMenu: React.FC<SideMenuProps> = ({
     const menuItem = menuItems.find((item) => item.id === menuId);
 
     if (menuItem?.disabled) {
-      return;
-    }
-
-    if (isCollapsed) {
-      setIsCollapsed(false);
-      setTimeout(() => {
-        setActiveMenu(menuId);
-        if (menuItem?.subItems) {
-          handleSubMenuTransition(menuId);
-        } else {
-          // *** NEW: Close submenu if clicking non-submenu item
-          handleCloseSubMenu();
-        }
-      }, 150);
       return;
     }
 
@@ -202,7 +186,7 @@ const SideMenu: React.FC<SideMenuProps> = ({
                 handleCloseSubMenu();
               }}
             >
-              <img src="/icons/arrow-left.svg" alt="Back" />
+              {"<"}
               <span>Back to Main Menu</span>
             </button>
             <div className="sub-menu-title">
