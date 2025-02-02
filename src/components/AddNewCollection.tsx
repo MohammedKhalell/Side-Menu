@@ -103,7 +103,10 @@ const handleFormClick = (e: React.MouseEvent) => {
               <img src="/icons/collection-icon.svg" alt="Collection" />
             </div>
             <div className="header-text">
-              <h2>Add New Collection</h2>
+              <div className="header-title">
+              <span className="add">Add</span>
+              <span className="new">New Collection</span>
+              </div>
               <p>Knowledge Base / Create New Collection</p>
             </div>
           </div>
@@ -116,7 +119,7 @@ const handleFormClick = (e: React.MouseEvent) => {
           <div className="form-group">
             <label>
               Collection Name<span className="required">*</span>
-              <img src="/icons/info-icon.svg" alt="info" />
+              <img src="/icons/info-icon.svg"className="info-icon" alt="info" />
             </label>
             <div className="input-wrapper">
               <img
@@ -157,7 +160,7 @@ const handleFormClick = (e: React.MouseEvent) => {
           <div className="form-group">
             <label>
               Description
-              <img src="/icons/info-icon.svg" alt="info" />
+              <img src="/icons/info-icon.svg"className="info-icon" alt="info" />
             </label>
             <div className="input-wrapper">
               <textarea
@@ -179,7 +182,7 @@ const handleFormClick = (e: React.MouseEvent) => {
             <div className="form-group half">
               <label>
                 Tags<span className="required">*</span>
-                <img src="/icons/info-icon.svg" alt="info" />
+                <img src="/icons/info-icon.svg"className="info-icon" alt="info" />
               </label>
               <div className="input-wrapper">
                 <img
@@ -202,7 +205,7 @@ const handleFormClick = (e: React.MouseEvent) => {
             <div className="form-group half">
               <label>
                 Access Level<span className="required">*</span>
-                <img src="/icons/info-icon.svg" alt="info" />
+                <img src="/icons/info-icon.svg"className="info-icon" alt="info" />
               </label>
               <div className="input-wrapper">
                 <img

@@ -23,7 +23,7 @@ const TopBar: React.FC<TopBarProps> = ({ toggleSideMenu, isCollapsed }) => {
             /> }
        
         </button>
-        <h2>Knowledge Base</h2>
+        <span>Knowledge Base</span>
       </div>
       <div className="right">
         

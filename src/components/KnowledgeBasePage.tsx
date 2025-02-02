@@ -34,17 +34,19 @@ const KnowledgeBasePage = () => {
   };
   const handleSearch = (query: string) => {
     setSearchQuery(query);
-    if (!query.trim()) {
-      setFilteredCollections(collections);
-      return;
-    }
-    const filtered = collections.filter((item) =>
-      item.title.toLowerCase().includes(query.toLowerCase()) ||
-      item.description.toLowerCase().includes(query.toLowerCase())
-    );
-    setFilteredCollections(filtered);
+    // Reset the current page to 1 whenever a new search is initiated
     setCurrentPage(1);
-  };
+
+    if (!query.trim()) {
+        setFilteredCollections(collections);
+    } else {
+        const filtered = collections.filter((item) =>
+            item.title.toLowerCase().includes(query.toLowerCase()) ||
+            item.description.toLowerCase().includes(query.toLowerCase())
+        );
+        setFilteredCollections(filtered);
+    }
+};
   useEffect(() => {
     setCollections(data);
     setFilteredCollections(data);
@@ -72,7 +74,7 @@ const KnowledgeBasePage = () => {
   if (showAddNewForm) {
     backdrop = <div className="backdrop" />;
   }
-  const totalPages = Math.ceil(collections.length / ITEMS_PER_PAGE);
+  const totalPages = Math.ceil(filteredCollections.length / ITEMS_PER_PAGE);
   const totalItems = filteredCollections.length;
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = Math.min(startIndex + ITEMS_PER_PAGE, totalItems);
@@ -108,6 +110,18 @@ const KnowledgeBasePage = () => {
               onChange={(e) => handleSearch(e.target.value)}
               className="search-input"
             />
+             {searchQuery && (
+        <button
+            className="clear-btn"
+            onClick={() => {
+                setSearchQuery(""); // Clear the input
+                handleSearch(""); // Reset search results
+            }}
+            aria-label="Clear search"
+        >
+            &times; 
+        </button>
+    )}
           </div>
         </div>
         <div className="action-buttons">
@@ -169,7 +183,7 @@ const KnowledgeBasePage = () => {
           </div>
           <div className="shift-buttons">
             <button
-              className="next"
+              className="prev"
               disabled={currentPage === 1}
               onClick={() => handlePageChange(1)}
             >
