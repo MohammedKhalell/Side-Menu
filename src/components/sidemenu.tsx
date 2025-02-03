@@ -114,8 +114,8 @@ const SideMenu: React.FC<SideMenuProps> = ({
   };
   return (
     <div className="side-menu-container">
-      <div className={`side-menu ${isCollapsed ? "collapsed" : ""}`}>
-        {/* Header */}
+    <div className={`side-menu ${isCollapsed ? "collapsed" : ""} ${openSubMenu ? 'submenu-open' : ''}`}>
+    {/* Header */}
         <div className="menu-header">
           <div className="logo-container">
             <div className="logo">

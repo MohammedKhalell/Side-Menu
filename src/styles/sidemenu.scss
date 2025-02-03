@@ -1,11 +1,14 @@
 @import url("https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700&display=swap");
 html{
   overflow: hidden;
+
 }
+
 body {
   margin: 0;
   font-family: "Cairo", sans-serif;
   overflow-x: hidden;
+
 }
 :root {
   --primary-bg: #172554;
@@ -44,7 +47,9 @@ body {
     }
   }
 }
-
+.side-menu.submenu-open {
+  border-radius: 16px 0 0 16px; /* Applied when submenu is open */
+}
 .menu-header {
   padding: 24px 20px;
   border-bottom: 1px solid var(--border-color);
@@ -303,7 +308,7 @@ body {
   animation: slide-In 0.3s ease forwards;
   overflow: hidden;
   position: relative;
-  border-radius: 16px;
+  border-radius: 0 16px;
 
   &.closing {
     animation: slide-Out 0.3s ease forwards;
