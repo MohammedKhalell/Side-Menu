@@ -16,8 +16,10 @@ const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       <SideMenu menuItems={menuData} isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
       <div className="main-content">
         <TopBar toggleSideMenu={toggleSideMenu} isCollapsed={isCollapsed} />
-        {children}
-      </div>
+        <div className="page-content">
+          {children}
+        </div>
+              </div>
     </div>
   );
 };

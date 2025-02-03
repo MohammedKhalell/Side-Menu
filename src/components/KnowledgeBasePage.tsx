@@ -27,6 +27,7 @@ const KnowledgeBasePage = () => {
   };
 
   const handleCloseForm = () => {
+    
     setShowAddNewForm(false);
   };
   const handlePageChange = (pageNum: number) => {
