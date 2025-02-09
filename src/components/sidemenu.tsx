@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import MenuItem from "./menuItem";
 import { MenuItem as MenuItemType } from "./menuData";
+
 interface SubMenuItem {
   id: string;
   label: string;
@@ -14,51 +15,34 @@ interface MenuItem {
   subItems?: SubMenuItem[];
   disabled?: boolean;
 }
+
 interface SideMenuProps {
   menuItems: MenuItemType[];
   isCollapsed: boolean;
   setIsCollapsed: React.Dispatch<React.SetStateAction<boolean>>;
+  openSubmenuId: string | null;
+  setOpenSubmenuId: React.Dispatch<React.SetStateAction<string | null>>;
 }
-// Menu Items Data
 
 const SideMenu: React.FC<SideMenuProps> = ({
   menuItems,
   isCollapsed,
   setIsCollapsed,
+  openSubmenuId,
+  setOpenSubmenuId,
 }) => {
   const [activeMenu, setActiveMenu] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
-  const [openSubMenu, setOpenSubMenu] = useState<string | null>(null);
-  const [, setPrevSubMenu] = useState<string | null>(null);
-  const [, setIsSubMenuTransitioning] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const transitionTimeoutRef = useRef<NodeJS.Timeout>();
 
   const handleSubMenuTransition = (newMenuId: string) => {
-    // If clicking the same menu, close it
-    if (openSubMenu === newMenuId) {
+    if (openSubmenuId === newMenuId) {
       handleCloseSubMenu();
       return;
     }
 
-    setIsSubMenuTransitioning(true);
-    setPrevSubMenu(openSubMenu);
     handleSubMenuOpen(newMenuId);
-    // Clear any existing timeout
-    if (transitionTimeoutRef.current) {
-      clearTimeout(transitionTimeoutRef.current);
-    }
-
-    // Set new submenu after a brief delay for animation
-    transitionTimeoutRef.current = setTimeout(() => {
-      setOpenSubMenu(newMenuId);
-
-      // Reset transition state after animation completes
-      setTimeout(() => {
-        setIsSubMenuTransitioning(false);
-        setPrevSubMenu(null);
-      }, 300); // Match with CSS transition duration
-    }, 150);
   };
 
   const handleMenuClick = (menuId: string) => {
@@ -73,26 +57,28 @@ const SideMenu: React.FC<SideMenuProps> = ({
     if (menuItem?.subItems) {
       handleSubMenuTransition(menuId);
     } else {
-      // *** NEW: Close submenu if clicking non-submenu item
       handleCloseSubMenu();
     }
   };
 
   const handleCloseSubMenu = () => {
-    if (openSubMenu) {
+    if (openSubmenuId) {
       setIsClosing(true);
 
-      // Cleanup existing timeout if any
       if (transitionTimeoutRef.current) {
         clearTimeout(transitionTimeoutRef.current);
       }
 
-      // Set timeout for animation duration
       transitionTimeoutRef.current = setTimeout(() => {
-        setOpenSubMenu(null);
+        setOpenSubmenuId(null);
         setIsClosing(false);
-      }, 300); // Match this with CSS transition duration
+      }, 300);
     }
+  };
+
+  const handleBackClick = () => {
+    handleCloseSubMenu();
+    setIsCollapsed(false);
   };
 
   useEffect(() => {
@@ -107,15 +93,17 @@ const SideMenu: React.FC<SideMenuProps> = ({
     item.label.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const activeMenuItem = menuItems.find((item) => item.id === openSubMenu);
+  const activeMenuItem = menuItems.find((item) => item.id === openSubmenuId);
+
   const handleSubMenuOpen = (menuId: string) => {
-    setOpenSubMenu(menuId);
+    setOpenSubmenuId(menuId);
     setIsCollapsed(true);
   };
+
   return (
-    <div className="side-menu-container">
-    <div className={`side-menu ${isCollapsed ? "collapsed" : ""} ${openSubMenu ? 'submenu-open' : ''}`}>
-    {/* Header */}
+    <div className="side-menu-content">
+      <div className={`side-menu ${isCollapsed ? "collapsed" : ""} ${openSubmenuId ? 'submenu-open' : ''}`}>
+        {/* Header */}
         <div className="menu-header">
           <div className="logo-container">
             <div className="logo">
@@ -176,41 +164,30 @@ const SideMenu: React.FC<SideMenuProps> = ({
       </div>
 
       {/* Sub Menu Panel */}
-      {openSubMenu && activeMenuItem?.subItems && (
+      {openSubmenuId && activeMenuItem?.subItems && (
         <div className={`sub-menu-panel ${isClosing ? "closing" : ""}`}>
           <div className="sub-menu-header">
             <button
               className="back-button"
-              onClick={() => {
-                setIsCollapsed(false);
-                handleCloseSubMenu();
-              }}
+              onClick={handleBackClick}
             >
               {"<"}
               <span>Back to Main Menu</span>
             </button>
             <div className="sub-menu-title">
               <img
-                src={activeMenuItem.iconName}
+                src={activeMenuItem.iconName || "/placeholder.svg"}
                 alt={`${activeMenuItem.label} icon`}
                 width={24}
                 height={24}
-                className={
-                  activeMenu === activeMenuItem.id
-                    ? "text-primary"
-                    : "text-secondary"
-                }
+                className={activeMenu === activeMenuItem.id ? "text-primary" : "text-secondary"}
               />
               <span>{activeMenuItem.label}</span>
             </div>
           </div>
           <div className="sub-menu-items">
             {activeMenuItem.subItems.map((subItem) => (
-              <button
-                key={subItem.id}
-                className="sub-menu-item"
-                onClick={() => {}}
-              >
+              <button key={subItem.id} className="sub-menu-item" onClick={() => {}}>
                 <span>{subItem.label}</span>
                 <span className="sub-menu-arrow"></span>
               </button>

@@ -1,22 +1,43 @@
 .main-layout {
   display: flex;
-  height: 100vh; // Make it full viewport height
+  flex-direction: column;
+  height: 100vh;
   background-color: #f8fafc;
   overflow: hidden;
 }
+.content-wrapper {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  padding-top: 20px;
 
+}
 .main-content {
   flex: 1;
   display: flex;
   flex-direction: column;
   padding: 0px 12px;
   height: 100vh; // Full height
-  overflow: hidden; 
+  overflow: hidden;
+  flex: 1;
+  padding: 0px 12px;
+  
+
+  
+
+  
+  @media (max-width: 1024px) {
+    padding: 0px 8px;
+  }
 }
 
 .page-content {
   flex: 1;
   overflow-x: hidden;
+  @media (max-width: 1024px) {
+    margin-top: 68px;
+  }
+
 }
 // Top Bar
 .top-bar {
@@ -30,9 +51,22 @@
   border-radius: 12px;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    flex-shrink: 0; // Prevent shrinking
+  flex-shrink: 0; // Prevent shrinking
+  @media (max-width: 1024px) {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 900;
+    border-radius: 0;
+    padding: 8px 16px;
+    height: 56px;
 
-
+  }
+  @media (min-width: 1024px) {
+    height: 60px;
+    padding: 8px 20px;
+  }
   .left {
     display: flex;
     align-items: center;
@@ -67,7 +101,15 @@
   .right {
     display: flex;
     gap: 16px;
-
+    right: 0px;
+    position: sticky;
+    @media (max-width: 1024px) {
+      gap: 0;
+    
+      .top-bar-btn span {
+        display: none;
+      }
+    }
     .top-bar-btn {
       display: flex;
       align-items: center;
@@ -79,13 +121,16 @@
       border-radius: 8px;
       color: var(--Primary-Colors-Dark-Blue, #142452);
       font-variant-numeric: lining-nums proportional-nums;
-
       /* Font/Button Small - 14 */
       font-family: Cairo;
       font-size: 14px;
       font-style: normal;
       font-weight: 600;
       line-height: 20px; /* 142.857% */
+      @media (max-width: 1024px) {
+        gap: 0;
+        padding: 8px;
+      }
       &:hover {
         background: #ebecf2;
       }
@@ -105,6 +150,10 @@
   display: inline-block;
   padding: 3px;
   transform: rotate(45deg);
+  @media (max-width: 1024px) {
+        display: none;
+
+  }
 }
 
 // Knowledge Base Page
@@ -112,7 +161,30 @@
   padding: 32px 0px;
   filter: brightness(1); /* Dim the entire card section */
   transition: filter 0.3s ease-in-out;
-
+  @media (max-width: 1024px) {
+    padding: 16px 0px;
+    .page-header {
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 16px;
+      
+      .view-controls {
+        width: 100%;
+        flex-wrap: wrap;
+        gap: 8px;
+        
+        .search-bar {
+          width: 100%;
+          order: -1;
+        }
+      }
+  }
+  .page-header-top {
+    height: auto;
+    padding: 12px;
+    margin-bottom: 16px;
+  }
+}
   .page-header-top {
     height: 137px;
     display: flex;
@@ -124,6 +196,15 @@
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
       0 2px 4px -1px rgba(0, 0, 0, 0.06);
   }
+  @media (min-width: 1024px) {
+    padding: 24px 0;
+    
+    .page-header {
+      padding: 16px;
+      margin-bottom: 24px;
+    }
+    
+  }
   .page-header {
     display: flex;
     justify-content: space-between;
@@ -134,10 +215,10 @@
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
       0 2px 4px -1px rgba(0, 0, 0, 0.06);
 
+   
     .view-controls {
       display: flex;
       align-items: center;
-      width: 80%;
       .view-btn {
         display: flex;
         align-items: center;
@@ -194,7 +275,7 @@
     .action-buttons {
       display: flex;
       gap: 12px;
-
+justify-content: flex-end;
       button {
         display: flex;
         align-items: center;
@@ -254,6 +335,27 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 24px;
+   
+    @media (min-width: 1440px) {
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+    }
+    
+    @media (min-width: 1024px) and (max-width: 1439px) {
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    
+    @media (min-width: 1024px) and (max-width: 1023px) {
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 16px;
+    }
+    
+    @media (max-width: 1024px) {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    
   }
 
   .collection-card {
@@ -266,7 +368,13 @@
     padding: 14px;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
       0 2px 4px -1px rgba(0, 0, 0, 0.06);
-
+      @media (min-width: 1440px) {
+        padding: 16px;
+      }
+      
+      @media (max-width: 1024px) {
+        padding: 12px;
+      }
     .card-image {
       height: 160px;
       border-radius: 8px;
@@ -330,6 +438,27 @@
   background: white;
   padding: 10px 10px;
   width: 100%;
+  @media (max-width: 1024px) {
+    padding: 8px;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+
+    .pagination-info {
+      text-align: center;
+      font-size: 12px;
+
+    }
+
+    .shift-buttons {
+      width: 100%;
+      justify-content: center;
+    }
+    button {
+      padding: 6px 12px;
+      font-size: 12px;
+    }
+  }
   button {
     padding: 8px 16px;
     border: 1px solid #e2e8f0;
@@ -365,7 +494,7 @@
   justify-content: space-between;
   align-items: center;
 }
-.container{
+.container {
   padding: 10px;
 }
 .pagination-info {
@@ -392,7 +521,6 @@
   animation: fade-in 0.3s ease-in-out forwards;
   border-radius: 12px;
   margin-top: 12px;
- 
 }
 @keyframes fade-in {
   0% {

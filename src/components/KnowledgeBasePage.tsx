@@ -48,6 +48,7 @@ const KnowledgeBasePage = () => {
         setFilteredCollections(filtered);
     }
 };
+
   useEffect(() => {
     setCollections(data);
     setFilteredCollections(data);
